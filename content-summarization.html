@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" x-data>
+<html lang="en">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -32,8 +32,8 @@
   },
   \"required\": [\"content\"]
 }` }">
-                    <button class="btn btn-outline-primary" @click="navigator.clipboard.writeText(json); $dispatch('copied', { message: 'JSON copied!' });">📋 Copy JSON</button>
-                    <pre><code x-text="json"></code></pre>
+                    <button class="btn btn-outline-primary mb-2" @click="navigator.clipboard.writeText(json); $dispatch('copied', { message: 'JSON copied!' });">📋 Copy JSON</button>
+                    <textarea class="form-control" rows="10" x-text="json" readonly></textarea>
                 </div>
 
                 <div x-data="{ uiSchema: `{
@@ -44,8 +44,8 @@
     }
   }
 }` }">
-                    <button class="btn btn-outline-secondary" @click="navigator.clipboard.writeText(uiSchema); $dispatch('copied', { message: 'UI Schema copied!' });">📋 Copy UI Schema</button>
-                    <pre><code x-text="uiSchema"></code></pre>
+                    <button class="btn btn-outline-secondary mb-2" @click="navigator.clipboard.writeText(uiSchema); $dispatch('copied', { message: 'UI Schema copied!' });">📋 Copy UI Schema</button>
+                    <textarea class="form-control" rows="5" x-text="uiSchema" readonly></textarea>
                 </div>
 
                 <div x-data="{ copiedMessage: '' }" @copied.window="copiedMessage = $event.detail.message, setTimeout(() => copiedMessage = '', 2000)">
