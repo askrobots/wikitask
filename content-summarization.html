@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" x-data="{ copied: false }">
+<html lang="en" x-data>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -11,16 +11,15 @@
     <!-- Alpine.js -->
     <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
 
-    <title>Task Templates</title>
+    <title>Content Summarization Task Template</title>
 </head>
 <body>
     <div class="container mt-5">
-        <h1>Task Templates</h1>
+        <h1>Content Summarization Task Template</h1>
         <div class="card mb-3">
             <div class="card-body">
-                <h5 class="card-title">Content Summarization Template</h5>
-                <p class="card-text">Use this template to summarize content using AI.</p>
-                
+                <p>Use this template to summarize content using AI.</p>
+
                 <div x-data="{ json: `{
   \"title\": \"Content Summarization\",
   \"type\": \"object\",
@@ -33,9 +32,24 @@
   },
   \"required\": [\"content\"]
 }` }">
-                    <button class="btn btn-outline-primary" @click="navigator.clipboard.writeText(json); copied = true; setTimeout(() => copied = false, 2000)">📋 Copy JSON</button>
-                    <span x-show="copied" x-transition.opacity.out.duration.1500ms> Copied!</span>
-                    <pre><code>{{ json }}</code></pre>
+                    <button class="btn btn-outline-primary" @click="navigator.clipboard.writeText(json); $dispatch('copied', { message: 'JSON copied!' });">📋 Copy JSON</button>
+                    <pre><code x-text="json"></code></pre>
+                </div>
+
+                <div x-data="{ uiSchema: `{
+  \"content\": {
+    \"ui:widget\": \"textarea\",
+    \"ui:options\": {
+      \"rows\": 10
+    }
+  }
+}` }">
+                    <button class="btn btn-outline-secondary" @click="navigator.clipboard.writeText(uiSchema); $dispatch('copied', { message: 'UI Schema copied!' });">📋 Copy UI Schema</button>
+                    <pre><code x-text="uiSchema"></code></pre>
+                </div>
+
+                <div x-data="{ copiedMessage: '' }" @copied.window="copiedMessage = $event.detail.message, setTimeout(() => copiedMessage = '', 2000)">
+                    <span x-show="copiedMessage" x-text="copiedMessage" class="text-success"></span>
                 </div>
             </div>
         </div>
