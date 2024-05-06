@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" x-data>
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -8,47 +8,54 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <title>WikiTask.org</title>
+    <!-- Alpine.js -->
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
+
+    <title>Content Summarization Task Template</title>
 </head>
 <body>
-    <header>
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">WikiTask</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">Templates</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="#">About</a>
-                        </li>
-                    </ul>
+    <div class="container mt-5">
+        <h1>Content Summarization Task Template</h1>
+        <div class="card mb-3">
+            <div class="card-body">
+                <p>Use this template to summarize content using AI.</p>
+
+                <div x-data="{ json: `{
+  \"title\": \"Content Summarization\",
+  \"type\": \"object\",
+  \"properties\": {
+    \"content\": {
+      \"type\": \"string\",
+      \"title\": \"Content to Summarize\",
+      \"description\": \"Paste the text you want to summarize.\"
+    }
+  },
+  \"required\": [\"content\"]
+}` }">
+                    <button class="btn btn-outline-primary" @click="navigator.clipboard.writeText(json); $dispatch('copied', { message: 'JSON copied!' });">📋 Copy JSON</button>
+                    <pre><code x-text="json"></code></pre>
+                </div>
+
+                <div x-data="{ uiSchema: `{
+  \"content\": {
+    \"ui:widget\": \"textarea\",
+    \"ui:options\": {
+      \"rows\": 10
+    }
+  }
+}` }">
+                    <button class="btn btn-outline-secondary" @click="navigator.clipboard.writeText(uiSchema); $dispatch('copied', { message: 'UI Schema copied!' });">📋 Copy UI Schema</button>
+                    <pre><code x-text="uiSchema"></code></pre>
+                </div>
+
+                <div x-data="{ copiedMessage: '' }" @copied.window="copiedMessage = $event.detail.message, setTimeout(() => copiedMessage = '', 2000)">
+                    <span x-show="copiedMessage" x-text="copiedMessage" class="text-success"></span>
                 </div>
             </div>
-        </nav>
-    </header>
-    <main class="container mt-4">
-        <h1>Welcome to WikiTask.org</h1>
-        <p>Your repository for freely usable task templates. Here you can find, use, and contribute JSON-based task templates for various uses under Creative Commons licenses.</p>
-
-        <!-- Content here -->
-        <div id="templates" class="list-group">
-            <a href="/content-summarization.html" class="list-group-item list-group-item-action">Content Summarization</a>
-            <a href="#" class="list-group-item list-group-item-action">Task Template 2</a>
-            <a href="#" class="list-group-item list-group-item-action">Task Template 3</a>
         </div>
-    </main>
+    </div>
 
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
